@@ -73,12 +73,40 @@ def get_order_details(order_id: int) -> str:
         return f"Database error: {e}"
 
 # --- SHIPPING TOOL ---
-@tool(args_schema=OrderLookupInput) # Reusing schema since it's just an order_id
+@tool(args_schema=OrderLookupInput)
 def check_shipping_status(order_id: int) -> str:
     """Check the CSV shipping log for delivery status."""
     try:
         df = pd.read_csv(SHIPPING_FILE)
-        record = df[df["order_id"] == order_id]
-        return record.to_string(index=False) if not record.empty else "No shipping record."
+
+        formatted_id = f"ORD-{order_id}"
+
+        record = df[df["order_id"] == formatted_id]
+
+        if record.empty:
+            return f"No shipping record found for {formatted_id}"
+
+        row = record.iloc[0]
+
+        return f"""
+Order ID: {row['order_id']}
+Status: {row['status']}
+Warehouse Location: {row['warehouse_loc']}
+Last Update: {row['last_update']}
+Priority: {row['priority']}
+"""
+
     except Exception as e:
         return f"Shipping log error: {e}"
+    
+
+from langchain_core.tools import tool
+from pydantic import BaseModel, Field
+
+class RefundInput(BaseModel):
+    order_id: int = Field(..., description="Order ID to refund")
+
+@tool(args_schema=RefundInput)
+def approve_refund(order_id: int) -> str:
+    """Process a refund for an order."""
+    return f"Refund approved for order ORD-{order_id}"

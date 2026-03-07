@@ -1,17 +1,28 @@
 from graph import app
 from langchain_core.messages import HumanMessage
+from dotenv import load_dotenv
 
-# Use the specific ID format if possible, or let the tool handle it
-initial_state = {"messages": [HumanMessage(content="Can I get refund for order 1001?")]}
+load_dotenv()
 
-print("--- STARTING GRAPH ---")
-final_message = ""
+config = {"configurable": {"thread_id": "session_1"}}
 
-for step in app.stream(initial_state, stream_mode="values"):
-    # Using 'values' mode lets you see the full history update at each step
-    last_msg = step["messages"][-1]
-    last_msg.pretty_print()
-    final_message = last_msg.content
+print("AI Support Agent Started\n")
 
-print("\n=== FINAL ANSWER ===")
-print(final_message)
+while True:
+
+    user_input = input("User: ")
+
+    if user_input.lower() == "exit":
+        break
+
+    state = {
+        "messages": [HumanMessage(content=user_input)]
+    }
+
+    last_msg = None
+
+    for step in app.stream(state, config=config, stream_mode="values"):
+        last_msg = step["messages"][-1]
+
+    if last_msg:
+        print("\nAgent:", last_msg.content)

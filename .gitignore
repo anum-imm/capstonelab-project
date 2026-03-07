@@ -33,7 +33,8 @@ env/
 refund_policy.txt
 
 # =========================
-# Jupyter Notebook
+# Jupyter Notebook.
+
 # =========================
 .ipynb_checkpoints/
 

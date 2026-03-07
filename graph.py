@@ -1,82 +1,145 @@
 from typing import TypedDict, Annotated, Sequence
-from langchain_core.messages import BaseMessage
+from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, END
-from langgraph.prebuilt import ToolNode
-from langgraph.graph.message import add_messages # Required for correct message history
-from dotenv import load_dotenv
-import os
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import create_react_agent
+from langgraph.checkpoint.memory import MemorySaver
+from approval_logic import human_approval
+from tools import search_policies, get_order_details, check_shipping_status, approve_refund
 
-from tools import search_policies, get_order_details, check_shipping_status
 
-load_dotenv()
+# -------------------------
+# MEMORY
+# -------------------------
+memory = MemorySaver()
 
-# 1️⃣ DEFINE STATE WITH REDUCER
+
+# -------------------------
+# STATE
+# -------------------------
 class AgentState(TypedDict):
-    # Annotated with add_messages ensures new messages are appended 
-    # to history instead of overwriting, preventing OpenAI API errors.
     messages: Annotated[Sequence[BaseMessage], add_messages]
 
-# 2️⃣ LOAD LLM
+
+# -------------------------
+# LLMs
+# -------------------------
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-tools = [search_policies, get_order_details, check_shipping_status]
-llm_with_tools = llm.bind_tools(tools)
+supervisor_llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
-# 3️⃣ AGENT NODE
-def agent_node(state: AgentState):
-    # Just return the new response; 'add_messages' handles the merge
-    response = llm_with_tools.invoke(state["messages"])
-    return {"messages": [response]}
 
-# 4️⃣ TOOL NODE
-tool_node = ToolNode(tools)
+# -------------------------
+# POLICY AGENT
+# -------------------------
+policy_agent = create_react_agent(
+    llm,
+    tools=[search_policies, approve_refund],
+    prompt=SystemMessage(
+        content="""
+You are a customer support policy specialist.
 
-# 5️⃣ ROUTER FUNCTION
-def router(state: AgentState):
-    last_message = state["messages"][-1]
-    if hasattr(last_message, "tool_calls") and last_message.tool_calls:
-        return "tools"
-    return "end"
+You can:
+- answer policy questions
+- approve refunds when policy allows
 
-# 6️⃣ BUILD GRAPH
+Refunds are high-risk actions and require human approval.
+
+Always check policy before approving refund.
+"""
+    ),
+    checkpointer=memory,
+)
+
+
+# -------------------------
+# ORDER AGENT
+# -------------------------
+order_agent = create_react_agent(
+    llm,
+    tools=[get_order_details, check_shipping_status],
+    prompt=SystemMessage(
+        content="""
+You are an order management assistant.
+
+You must retrieve order information using tools.
+
+Rules:
+- Use get_order_details for order queries.
+- Use check_shipping_status for delivery queries.
+- Never guess order information.
+"""
+    ),
+    checkpointer=memory,
+)
+
+
+# -------------------------
+# SUPERVISOR NODE
+# -------------------------
+def supervisor(state: AgentState):
+    return state
+
+
+# -------------------------
+# ROUTER
+# -------------------------
+def supervisor_router(state: AgentState):
+
+    question = state["messages"][-1].content
+
+    prompt = f"""
+You are a supervisor managing two agents:
+
+1. policy_agent → handles refund, return, and policy questions
+2. order_agent → handles order details, shipping, and delivery questions
+
+Respond with ONLY one word:
+policy_agent
+order_agent
+
+User question:
+{question}
+"""
+
+    response = supervisor_llm.invoke(prompt).content.strip().lower()
+
+    if "order_agent" in response:
+        return "order_agent"
+
+    return "policy_agent"
+
+
+# -------------------------
+# GRAPH
+# -------------------------
 workflow = StateGraph(AgentState)
 
-workflow.add_node("agent", agent_node)
-workflow.add_node("tools", tool_node)
+workflow.add_node("supervisor", supervisor)
+workflow.add_node("policy_agent", policy_agent)
+workflow.add_node("order_agent", order_agent)
+workflow.add_node("human_check", human_approval)
 
-workflow.set_entry_point("agent")
+workflow.set_entry_point("supervisor")
 
 workflow.add_conditional_edges(
-    "agent",
-    router,
+    "supervisor",
+    supervisor_router,
     {
-        "tools": "tools",
-        "end": END,
+        "policy_agent": "policy_agent",
+        "order_agent": "order_agent",
     },
 )
 
-workflow.add_edge("tools", "agent")
+# Order questions end directly
+workflow.add_edge("order_agent", END)
 
-app = workflow.compile()
+# Policy agent goes through HITL
+workflow.add_edge("policy_agent", "human_check")
+workflow.add_edge("human_check", END)
 
-import os
-from graph import app
 
-# 1. Get the graph object
-graph = app.get_graph()
-
-# 2. To get a PNG with details, we use the mermaid draw method
-try:
-    # This requires 'pygraphviz' or 'graphviz' system-level installs
-    # It generates a PNG file of the current workflow
-    graph_png = graph.draw_mermaid_png()
-    
-    with open("detailed_graph.png", "wb") as f:
-        f.write(graph_png)
-    print("Success! 'detailed_graph.png' has been saved to your project folder.")
-
-except Exception as e:
-    print(f"PNG generation failed: {e}")
-    # Fallback: Print the Mermaid text code
-    print("\nCopy the text below into https://mermaid.live to see a detailed version:")
-    print(graph.draw_mermaid())
+# -------------------------
+# COMPILE
+# -------------------------
+app = workflow.compile(checkpointer=memory)
