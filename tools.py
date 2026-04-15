@@ -98,11 +98,6 @@ Priority: {row['priority']}
 
     except Exception as e:
         return f"Shipping log error: {e}"
-    
-
-from langchain_core.tools import tool
-from pydantic import BaseModel, Field
-
 class RefundInput(BaseModel):
     order_id: int = Field(..., description="Order ID to refund")
 

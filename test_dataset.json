@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "query": "What is the refund policy for Premier customers?",
+    "ground_truth": "Premier customers typically have a more flexible refund policy; agent should use policy search tool."
+  },
+  {
+    "id": 2,
+    "query": "Can I return an item after 30 days?",
+    "ground_truth": "Agent should consult policy documents and provide policy-based answer."
+  },
+  {
+    "id": 3,
+    "query": "Check order 1001 details.",
+    "ground_truth": "Agent should call get_order_details with order_id 1001 and return order record."
+  },
+  {
+    "id": 4,
+    "query": "Track shipping for order 1010.",
+    "ground_truth": "Agent should call check_shipping_status for order 1010."
+  },
+  {
+    "id": 5,
+    "query": "Is ORD-1003 delivered?",
+    "ground_truth": "Agent should call check_shipping_status and answer with status from shipping log."
+  },
+  {
+    "id": 6,
+    "query": "Refund order 1012 if policy allows.",
+    "ground_truth": "Agent should verify policy then propose refund and pass through human approval."
+  },
+  {
+    "id": 7,
+    "query": "Show me order 1005 customer tier.",
+    "ground_truth": "Agent should use get_order_details and report customer tier."
+  },
+  {
+    "id": 8,
+    "query": "What are shipping priority rules?",
+    "ground_truth": "Agent should retrieve policy-like content via search_policies."
+  },
+  {
+    "id": 9,
+    "query": "Do standard customers get instant refunds?",
+    "ground_truth": "Agent should answer from refund policy and avoid unsupported claims."
+  },
+  {
+    "id": 10,
+    "query": "Find details for order 1020.",
+    "ground_truth": "Agent should use get_order_details for 1020."
+  },
+  {
+    "id": 11,
+    "query": "What was the last update for order 1008 shipping?",
+    "ground_truth": "Agent should use check_shipping_status and provide last_update field."
+  },
+  {
+    "id": 12,
+    "query": "Explain return and refund difference.",
+    "ground_truth": "Agent should use policy context and explain clearly."
+  },
+  {
+    "id": 13,
+    "query": "Approve refund for order 1017.",
+    "ground_truth": "Agent should invoke refund path and human approval step."
+  },
+  {
+    "id": 14,
+    "query": "I need shipping status for order 1015 and 1016.",
+    "ground_truth": "Agent should query shipping tool for both orders or ask clarification if one-by-one workflow."
+  },
+  {
+    "id": 15,
+    "query": "What can cause a refund rejection?",
+    "ground_truth": "Agent should answer from policy constraints."
+  },
+  {
+    "id": 16,
+    "query": "Where is order 1002 currently?",
+    "ground_truth": "Agent should check shipping log and provide warehouse/status."
+  },
+  {
+    "id": 17,
+    "query": "Summarize the policy for premium users in 3 bullets.",
+    "ground_truth": "Agent should provide concise policy summary grounded in retrieved data."
+  },
+  {
+    "id": 18,
+    "query": "Can you process refund for order 1004 right now?",
+    "ground_truth": "Agent should route through policy verification and human approval."
+  },
+  {
+    "id": 19,
+    "query": "Which tool do you use for order details?",
+    "ground_truth": "Agent should indicate get_order_details tool."
+  },
+  {
+    "id": 20,
+    "query": "Give me order 1011 details and shipping status.",
+    "ground_truth": "Agent should call both order detail and shipping tools or sequence requests safely."
+  }
+]

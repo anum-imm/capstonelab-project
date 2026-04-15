@@ -1,28 +1,24 @@
+import argparse
+
+from agent_runner import run_cli
 from graph import app
-from langchain_core.messages import HumanMessage
-from dotenv import load_dotenv
+from secured_graph import secured_app
 
-load_dotenv()
 
-config = {"configurable": {"thread_id": "session_1"}}
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Run support agent.")
+    parser.add_argument(
+        "--secured",
+        action="store_true",
+        help="Run the secured graph with guardrails enabled.",
+    )
+    args = parser.parse_args()
 
-print("AI Support Agent Started\n")
-
-while True:
-
-    user_input = input("User: ")
-
-    if user_input.lower() == "exit":
-        break
-
-    state = {
-        "messages": [HumanMessage(content=user_input)]
-    }
-
-    last_msg = None
-
-    for step in app.stream(state, config=config, stream_mode="values"):
-        last_msg = step["messages"][-1]
-
-    if last_msg:
-        print("\nAgent:", last_msg.content)
+    if args.secured:
+        run_cli(
+            secured_app,
+            thread_id="secure_session_1",
+            banner="Secured AI Support Agent Started (type 'exit' to quit)",
+        )
+    else:
+        run_cli(app, thread_id="session_1", banner="AI Support Agent Started")
