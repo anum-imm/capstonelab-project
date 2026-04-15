@@ -1,2 +1,0 @@
-Initial analysis:
-The highest latency is expected in LLM-heavy nodes (`guardrail_node` judge call and agent reasoning/tool loops), especially when multiple tool invocations occur in a single query. A practical optimization is to keep deterministic checks first, only call the LLM judge when needed, and cache repeated policy retrieval results.
