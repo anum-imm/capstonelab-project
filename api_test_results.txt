@@ -1,0 +1,8 @@
+﻿=== /chat result ===
+{
+    "final_answer":  "The shipping status for order 1010 is as follows:\n\n- **Order ID:** ORD-1010\n- **Status:** In-Transit\n- **Warehouse Location:** California\n- **Last Update:** February 20, 2024\n- **Priority:** High",
+    "status":  "success"
+}
+
+=== /stream result ===
+{"detail":[{"type":"json_invalid","loc":["body",1],"msg":"JSON decode error","input":{},"ctx":{"error":"Expecting property name enclosed in double quotes"}}]}

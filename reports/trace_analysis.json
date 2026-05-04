@@ -1,0 +1,152 @@
+{
+  "avg_node_latency_seconds": {
+    "guardrail_node": 0.7791,
+    "supervisor": 0.8901,
+    "policy_agent": 4.8479,
+    "human_check": 0.0035,
+    "output_sanitizer_node": 0.0046,
+    "order_agent": 6.4429
+  },
+  "slowest_node": "order_agent",
+  "slowest_avg_seconds": 6.4429,
+  "trace_rows": [
+    {
+      "query_id": 1,
+      "query": "Refund order 1012 if policy allows and explain why.",
+      "node": "guardrail_node",
+      "elapsed_seconds": 0.6779
+    },
+    {
+      "query_id": 1,
+      "query": "Refund order 1012 if policy allows and explain why.",
+      "node": "supervisor",
+      "elapsed_seconds": 0.7636
+    },
+    {
+      "query_id": 1,
+      "query": "Refund order 1012 if policy allows and explain why.",
+      "node": "policy_agent",
+      "elapsed_seconds": 5.0991
+    },
+    {
+      "query_id": 1,
+      "query": "Refund order 1012 if policy allows and explain why.",
+      "node": "human_check",
+      "elapsed_seconds": 0.0016
+    },
+    {
+      "query_id": 1,
+      "query": "Refund order 1012 if policy allows and explain why.",
+      "node": "output_sanitizer_node",
+      "elapsed_seconds": 0.0043
+    },
+    {
+      "query_id": 2,
+      "query": "Give details and shipping status for order 1011.",
+      "node": "guardrail_node",
+      "elapsed_seconds": 0.6042
+    },
+    {
+      "query_id": 2,
+      "query": "Give details and shipping status for order 1011.",
+      "node": "supervisor",
+      "elapsed_seconds": 1.0908
+    },
+    {
+      "query_id": 2,
+      "query": "Give details and shipping status for order 1011.",
+      "node": "order_agent",
+      "elapsed_seconds": 8.4128
+    },
+    {
+      "query_id": 2,
+      "query": "Give details and shipping status for order 1011.",
+      "node": "output_sanitizer_node",
+      "elapsed_seconds": 0.0023
+    },
+    {
+      "query_id": 3,
+      "query": "What are shipping priority rules and refund constraints for standard users?",
+      "node": "guardrail_node",
+      "elapsed_seconds": 0.7016
+    },
+    {
+      "query_id": 3,
+      "query": "What are shipping priority rules and refund constraints for standard users?",
+      "node": "supervisor",
+      "elapsed_seconds": 1.0284
+    },
+    {
+      "query_id": 3,
+      "query": "What are shipping priority rules and refund constraints for standard users?",
+      "node": "policy_agent",
+      "elapsed_seconds": 5.4201
+    },
+    {
+      "query_id": 3,
+      "query": "What are shipping priority rules and refund constraints for standard users?",
+      "node": "human_check",
+      "elapsed_seconds": 0.0035
+    },
+    {
+      "query_id": 3,
+      "query": "What are shipping priority rules and refund constraints for standard users?",
+      "node": "output_sanitizer_node",
+      "elapsed_seconds": 0.0053
+    },
+    {
+      "query_id": 4,
+      "query": "Track shipping for order 1015 and order 1016.",
+      "node": "guardrail_node",
+      "elapsed_seconds": 1.0297
+    },
+    {
+      "query_id": 4,
+      "query": "Track shipping for order 1015 and order 1016.",
+      "node": "supervisor",
+      "elapsed_seconds": 0.6383
+    },
+    {
+      "query_id": 4,
+      "query": "Track shipping for order 1015 and order 1016.",
+      "node": "order_agent",
+      "elapsed_seconds": 4.473
+    },
+    {
+      "query_id": 4,
+      "query": "Track shipping for order 1015 and order 1016.",
+      "node": "output_sanitizer_node",
+      "elapsed_seconds": 0.0058
+    },
+    {
+      "query_id": 5,
+      "query": "Can you process refund for order 1004 right now?",
+      "node": "guardrail_node",
+      "elapsed_seconds": 0.8821
+    },
+    {
+      "query_id": 5,
+      "query": "Can you process refund for order 1004 right now?",
+      "node": "supervisor",
+      "elapsed_seconds": 0.9294
+    },
+    {
+      "query_id": 5,
+      "query": "Can you process refund for order 1004 right now?",
+      "node": "policy_agent",
+      "elapsed_seconds": 4.0246
+    },
+    {
+      "query_id": 5,
+      "query": "Can you process refund for order 1004 right now?",
+      "node": "human_check",
+      "elapsed_seconds": 0.0055
+    },
+    {
+      "query_id": 5,
+      "query": "Can you process refund for order 1004 right now?",
+      "node": "output_sanitizer_node",
+      "elapsed_seconds": 0.0054
+    }
+  ]
+}

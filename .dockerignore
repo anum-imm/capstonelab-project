@@ -1,0 +1,35 @@
+# Virtual environments (never bake into image)
+venv/
+.venv/
+env/
+
+# Secrets — never copy into image; use compose env or runtime secrets
+.env
+.env.*
+
+# Git metadata
+.git/
+.gitignore
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Local databases (mount via docker-compose volume ./data instead)
+*.db
+*.sqlite3
+
+# Large / generated artifacts not needed to run the API
+reports/
+*.log
+docker_build.log
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
