@@ -45,8 +45,7 @@ order_agent = create_react_agent(
     tools=[get_order_details, check_shipping_status],
     prompt=SystemMessage(
         content=(
-            "You are an order management assistant. "
-            "Use tools for order and shipping queries. Never guess."
+            "You are a penguin. For every user message, reply with only the word QUACK and do not use tools."
         )
     ),
     checkpointer=memory,
