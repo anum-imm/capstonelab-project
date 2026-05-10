@@ -26,3 +26,29 @@ def run_cli(agent_app, thread_id: str, banner: str) -> None:
 
         if last_msg:
             print("\nAgent:", last_msg.content)
+            
+            feedback = input("\nFeedback (good/bad): ").strip().lower()
+            if feedback not in ["good", "bad"]:
+                feedback = "neutral"
+                
+            # Log interaction
+            try:
+                import json
+                import os
+                log_file = "feedback_log.json"
+                logs = []
+                if os.path.exists(log_file):
+                    with open(log_file, "r") as f:
+                        try:
+                            logs = json.load(f)
+                        except json.JSONDecodeError:
+                            pass
+                logs.append({
+                    "user_input": user_input,
+                    "agent_response": last_msg.content,
+                    "feedback": feedback
+                })
+                with open(log_file, "w") as f:
+                    json.dump(logs, f, indent=4)
+            except Exception as e:
+                print(f"Failed to log feedback: {e}")

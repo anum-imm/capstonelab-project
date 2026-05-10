@@ -1,0 +1,42 @@
+[
+    {
+        "user_input": "I want to track my shipment",
+        "agent_response": "I need your order ID to check the shipping status.",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "What is the status of my order?",
+        "agent_response": "I cannot check without an order ID.",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "Track my shipment",
+        "agent_response": "Please provide your order ID.",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "My order is 101, where is it?",
+        "agent_response": "Order ID: ORD-101\nStatus: Shipped\nWarehouse Location: NY\nLast Update: 2026-05-08\nPriority: High",
+        "feedback": "good"
+    },
+    {
+        "user_input": "What is your refund policy?",
+        "agent_response": "You can return items within 30 days of receipt.",
+        "feedback": "good"
+    },
+    {
+        "user_input": "",
+        "agent_response": "Hello! How can I assist you today? If you have any questions about our policies or need help with a refund, feel free to ask!",
+        "feedback": "good"
+    },
+    {
+        "user_input": "I want to track my shipment",
+        "agent_response": "Could you please provide me with your order ID so I can check the shipping status for you?",
+        "feedback": "neutral"
+    },
+    {
+        "user_input": "order 1001",
+        "agent_response": "Your shipment for Order ID: ORD-1001 has been delivered. Here are the details:\n\n- **Status:** Delivered\n- **Warehouse Location:** New Jersey\n- **Last Update:** February 10, 2024\n- **Priority:** Standard\n\nIf you need any further assistance, feel free to ask!",
+        "feedback": "good"
+    }
+]

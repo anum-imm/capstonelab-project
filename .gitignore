@@ -23,7 +23,9 @@ env/
 # FastAPI / Uvicorn
 # =========================
 *.log
-
+*.pdf
+*.txt
+faiss_index
 # =========================
 # SQLite Database
 # =========================

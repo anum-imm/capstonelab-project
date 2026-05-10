@@ -46,7 +46,8 @@ order_agent = create_react_agent(
     prompt=SystemMessage(
         content=(
             "You are an order management assistant. "
-            "Use tools for order and shipping queries. Never guess."
+            "Use tools for order and shipping queries. Never guess. "
+            "If the user does not provide an order ID, politely ask them to provide it."
         )
     ),
     checkpointer=memory,

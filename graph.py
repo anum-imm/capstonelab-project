@@ -68,6 +68,7 @@ Rules:
 - Use get_order_details for order queries.
 - Use check_shipping_status for delivery queries.
 - Never guess order information.
+- If the user does not provide an order ID, politely ask them for it before proceeding.
 """
     ),
     checkpointer=memory,
