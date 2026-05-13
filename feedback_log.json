@@ -38,5 +38,35 @@
         "user_input": "order 1001",
         "agent_response": "Your shipment for Order ID: ORD-1001 has been delivered. Here are the details:\n\n- **Status:** Delivered\n- **Warehouse Location:** New Jersey\n- **Last Update:** February 10, 2024\n- **Priority:** Standard\n\nIf you need any further assistance, feel free to ask!",
         "feedback": "good"
+    },
+    {
+        "user_input": "I want to track my shipment",
+        "agent_response": "Could you please provide me with your order ID so I can check the shipping status for you?",
+        "feedback": "neutral"
+    },
+    {
+        "user_input": "good",
+        "agent_response": "It seems like you might have meant to provide your order ID, but I didn't receive it. Please share your order ID so I can assist you with tracking your shipment.",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "",
+        "agent_response": "Hello! How can I assist you today? If you have any questions about our policies or need help with a refund, feel free to ask!",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "I want to track my shipment",
+        "agent_response": "Could you please provide me with your order ID so I can check the shipping status for you?",
+        "feedback": "bad"
+    },
+    {
+        "user_input": "I want to track my shipment or order 1010",
+        "agent_response": "Your shipment for order ID ORD-1010 is currently **In-Transit**. \n\n- **Warehouse Location:** California\n- **Last Update:** February 20, 2024\n- **Priority:** High\n\nIf you need any further assistance, feel free to ask!",
+        "feedback": "good"
+    },
+    {
+        "user_input": "I want to track my shipment or order 1011",
+        "agent_response": "Your shipment for order ID ORD-1011 is currently **Pending**.\n\n- **Warehouse Location:** Texas\n- **Last Update:** February 21, 2024\n- **Priority:** Standard\n\nIf you have any more questions or need further assistance, just let me know!",
+        "feedback": "bad"
     }
 ]

@@ -1,6 +1,6 @@
 import os
 from langchain_core.messages import HumanMessage
-from self_rag import app
+from graph import app
 
 def run_test(test_id, description, query):
     print(f"\n{'='*50}")
