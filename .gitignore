@@ -23,17 +23,13 @@ env/
 # FastAPI / Uvicorn
 # =========================
 *.log
-*.pdf
-*.txt
 faiss_index
 # =========================
 # SQLite Database
 # =========================
 *.sqlite3
-*.db
-*.csv
-refund_policy.txt
-
+data/faiss_index/index.faiss
+data/faiss_index/index.pkl
 # =========================
 # Jupyter Notebook.
 
